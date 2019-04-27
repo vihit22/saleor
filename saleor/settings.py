@@ -26,7 +26,7 @@ def get_bool_from_env(name, default_value):
     return default_value
 
 
-DEBUG = get_bool_from_env('DEBUG', True)
+DEBUG = False
 
 SITE_ID = 1
 
@@ -51,11 +51,11 @@ CACHES = {'default': django_cache_url.config()}
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://saleor:saleor@localhost:5432/saleor',
+        default='postgres://b',
         conn_max_age=600)}
 
 
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Kolkata'
 LANGUAGE_CODE = 'en'
 LANGUAGES = [
     ('ar', _('Arabic')),
@@ -178,6 +178,7 @@ TEMPLATES = [{
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -187,6 +188,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django_babel.middleware.LocaleMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'saleor.core.middleware.discounts',
     'saleor.core.middleware.google_analytics',
     'saleor.core.middleware.country',
@@ -325,8 +327,8 @@ AUTH_USER_MODEL = 'account.User'
 
 LOGIN_URL = '/account/login/'
 
-DEFAULT_COUNTRY = os.environ.get('DEFAULT_COUNTRY', 'US')
-DEFAULT_CURRENCY = os.environ.get('DEFAULT_CURRENCY', 'USD')
+DEFAULT_COUNTRY = os.environ.get('DEFAULT_COUNTRY', 'IN')
+DEFAULT_CURRENCY = os.environ.get('DEFAULT_CURRENCY', 'INR')
 DEFAULT_DECIMAL_PLACES = get_currency_fraction(DEFAULT_CURRENCY)
 DEFAULT_MAX_DIGITS = 12
 AVAILABLE_CURRENCIES = [DEFAULT_CURRENCY]
@@ -386,7 +388,7 @@ bootstrap4 = {
 TEST_RUNNER = 'tests.runner.PytestTestRunner'
 
 ALLOWED_HOSTS = get_list(
-    os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1'))
+    os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,chhajjaart.com'))
 ALLOWED_GRAPHQL_ORIGINS = os.environ.get('ALLOWED_GRAPHQL_ORIGINS', '*')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -574,7 +576,8 @@ RAZORPAY = 'razorpay'
 STRIPE = 'stripe'
 
 CHECKOUT_PAYMENT_GATEWAYS = {
-    DUMMY: pgettext_lazy('Payment method name', 'Dummy gateway')}
+    DUMMY: pgettext_lazy('Payment method name', 'Dummy gateway'),
+    RAZORPAY: pgettext_lazy('Razorpay', 'RazorPay')}
 
 PAYMENT_GATEWAYS = {
     DUMMY: {
@@ -622,3 +625,14 @@ GRAPHENE = {
     'RELAY_CONNECTION_ENFORCE_FIRST_OR_LAST': True,
     'RELAY_CONNECTION_MAX_LIMIT': 100
 }
+
+#Enable to start https only connections
+SECURE_HSTS_SECONDS=0
+SECURE_HSTS_INCLUDE_SUBDOMAINS=False
+SECURE_SSL_REDIRECT=False
+SESSION_COOKIE_SECURE=False
+CSRF_COOKIE_SECURE=False
+
+#Zaruri hai
+SECURE_CONTENT_TYPE_NOSNIFF=True
+SECURE_BROWSER_XSS_FILTER=True
